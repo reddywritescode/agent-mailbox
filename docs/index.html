@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Agent Mailbox</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header>
+      <p class="eyebrow">Self-hosted email for agents</p>
+      <h1>Every agent gets an inbox. You keep the veto.</h1>
+      <p>
+        Provision inboxes, parse inbound mail, gate outbound sends, and keep an audit trail on your
+        own machine.
+      </p>
+      <a href="https://github.com/example/agent-mailbox">GitHub</a>
+    </header>
+    <main>
+      <section>
+        <h2>Problem</h2>
+        <p>
+          Agents can email customers, vendors, and teammates faster than operators can inspect the
+          consequences. Agent Mailbox keeps the send path visible and stoppable.
+        </p>
+      </section>
+      <section>
+        <h2>How it works</h2>
+        <pre>
+agent -> mailbox policy -> approval queue -> BYO SMTP/SES
+provider inbound -> parser -> structured JSON -> webhook</pre
+        >
+      </section>
+      <section>
+        <h2>Policy and approvals</h2>
+        <img src="../launch-assets/product-hunt/gallery-02.png" alt="Approval console screenshot" />
+      </section>
+      <section>
+        <h2>Quickstart</h2>
+        <pre>
+docker compose up -d
+curl -s localhost:8081/healthz</pre
+        >
+      </section>
+      <section>
+        <h2>Comparison</h2>
+        <table>
+          <tr>
+            <th>Product</th>
+            <th>Self-hosted</th>
+            <th>Approval queue</th>
+            <th>BYO provider</th>
+          </tr>
+          <tr>
+            <td>Agent Mailbox</td>
+            <td>Yes</td>
+            <td>Yes</td>
+            <td>Yes</td>
+          </tr>
+          <tr>
+            <td>AgentMail</td>
+            <td>No</td>
+            <td>No</td>
+            <td>No</td>
+          </tr>
+          <tr>
+            <td>Dead Simple</td>
+            <td>No</td>
+            <td>No</td>
+            <td>No</td>
+          </tr>
+          <tr>
+            <td>Atomic Mail</td>
+            <td>No</td>
+            <td>No</td>
+            <td>No</td>
+          </tr>
+          <tr>
+            <td>Nylas</td>
+            <td>No</td>
+            <td>No</td>
+            <td>No</td>
+          </tr>
+        </table>
+      </section>
+      <section>
+        <h2>FAQ</h2>
+        <p>No telemetry. No hosted control plane. No deliverability lock-in.</p>
+      </section>
+    </main>
+  </body>
+</html>
