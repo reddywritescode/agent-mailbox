@@ -129,7 +129,9 @@ export function createApp(context?: Partial<AppContext>): FastifyInstance {
     done(null, body)
   );
 
-  app.get("/healthz", async () => ({ status: "ok", version: VERSION }));
+  const health = async () => ({ status: "ok", version: VERSION });
+  app.get("/healthz", health);
+  app.get("/health", health);
   app.get("/readyz", async () => ({ status: "ok", db: "reachable" }));
 
   app.post(

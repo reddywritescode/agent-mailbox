@@ -51,7 +51,9 @@ export async function runCli(argv = process.argv): Promise<void> {
       store.migrate();
       if (loaded.created) printFirstRun("agent-mailbox.config.yaml", loaded.config.database_url);
       const app = createApp({ loaded, store });
-      const port = opts.port ? Number(opts.port) : loaded.config.port || DEFAULT_PORT;
+      const port = opts.port
+        ? Number(opts.port)
+        : Number(process.env.PORT || loaded.config.port || DEFAULT_PORT);
       await app.listen({ port, host: "0.0.0.0" });
       process.on("SIGTERM", () => void app.close().then(() => process.exit(0)));
       process.on("SIGINT", () => void app.close().then(() => process.exit(0)));

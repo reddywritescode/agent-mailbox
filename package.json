@@ -22,6 +22,7 @@
     "test:unit": "vitest run tests/unit --coverage=false",
     "test:integration": "vitest run tests/integration --coverage=false",
     "test:e2e": "vitest run tests/e2e --coverage=false",
+    "test:prod": "node scripts/prod-e2e.mjs",
     "test": "pnpm test:unit && pnpm test:integration && pnpm test:e2e"
   },
   "publishConfig": {

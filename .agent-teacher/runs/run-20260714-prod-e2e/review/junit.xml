@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="agent-supervisor" tests="6" failures="0">
+<testcase name="intent_match" />
+<testcase name="scope_control" />
+<testcase name="evidence_gathering" />
+<testcase name="verification" />
+<testcase name="human_preference_fit" />
+<testcase name="production_readiness" />
+</testsuite>
