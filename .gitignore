@@ -1,0 +1,7 @@
+node_modules/
+dist/
+coverage/
+.env
+data/
+agent-mailbox.config.yaml
+policy.yaml

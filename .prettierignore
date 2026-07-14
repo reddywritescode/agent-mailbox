@@ -1,0 +1,6 @@
+node_modules/
+dist/
+coverage/
+docs/spec/
+launch-assets/product-hunt/*.png
+.agent-teacher/

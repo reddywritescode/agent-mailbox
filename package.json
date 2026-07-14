@@ -1,0 +1,57 @@
+{
+  "name": "agent-mailbox",
+  "version": "0.1.0",
+  "description": "Every agent gets an inbox. You keep the veto.",
+  "type": "module",
+  "bin": {
+    "agent-mailbox": "./dist/src/cli.js"
+  },
+  "exports": {
+    ".": "./dist/src/index.js",
+    "./client": "./dist/client/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts src/cli.ts src/mcp/server.ts client/index.ts --format esm --dts --clean",
+    "lint": "eslint . && prettier --check . && node scripts/no-todos.mjs",
+    "typecheck": "tsc --noEmit",
+    "test:unit": "vitest run tests/unit --coverage=false",
+    "test:integration": "vitest run tests/integration --coverage=false",
+    "test:e2e": "vitest run tests/e2e --coverage=false",
+    "test": "pnpm test:unit && pnpm test:integration && pnpm test:e2e"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.13.3",
+    "commander": "12.1.0",
+    "fastify": "5.4.0",
+    "mailparser": "3.7.2",
+    "nodemailer": "6.10.1",
+    "pino": "9.7.0",
+    "yaml": "2.8.0",
+    "zod": "3.25.67"
+  },
+  "devDependencies": {
+    "@eslint/js": "9.30.1",
+    "@types/mailparser": "3.4.6",
+    "@types/node": "22.15.34",
+    "@types/nodemailer": "6.4.17",
+    "@vitest/coverage-v8": "2.1.9",
+    "eslint": "9.30.1",
+    "prettier": "3.6.2",
+    "tsup": "8.5.0",
+    "typescript": "5.6.3",
+    "typescript-eslint": "8.35.1",
+    "vitest": "2.1.9"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "packageManager": "pnpm@9.15.9"
+}
