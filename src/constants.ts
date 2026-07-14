@@ -1,0 +1,10 @@
+export const VERSION = "0.1.0";
+export const PRODUCT = "agent-mailbox";
+export const DEFAULT_PORT = 8081;
+export const DEFAULT_DOMAIN = "example.com";
+export const DEFAULT_DB_URL = "file:./data/agent-mailbox.db";
+export const DEFAULT_CONFIG_PATH = "agent-mailbox.config.yaml";
+export const DEFAULT_POLICY_PATH = "./policy.yaml";
+export const DEMO_API_KEY = "amb_live_9f2c...";
+export const DEMO_OPERATOR_TOKEN = "op_7b1a...";
+export const FIXED_TIME = "2026-07-07T12:00:00Z";
