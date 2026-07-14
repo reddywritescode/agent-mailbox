@@ -1,0 +1,18 @@
+name: scenario-10
+send:
+  to: person@competitor.com
+  subject: "refund"
+  body: "refund"
+policy:
+  default_action: allow
+  allowlist_domains: [allowed.com]
+  blocklist_domains: [competitor.com]
+  require_approval_for:
+    external_domains: true
+    contains_keywords: [refund, pricing, legal]
+  caps:
+    per_inbox_per_day: 200
+    per_inbox_per_hour: 50
+expect:
+  action: block
+  rule: "blocklist:competitor.com"
