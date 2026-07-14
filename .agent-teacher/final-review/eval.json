@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "id": "soft_eval_cacd278c4d8e",
+  "id": "soft_eval_dd4d9cbc0dad",
   "name": "soft eval: Dogfood and productionize agent-mailbox on GCP, run live e2e production ",
   "input": {
     "prompt": "Dogfood and productionize agent-mailbox on GCP, run live e2e production testing, and correct the product thesis if self-hosting does not work."
@@ -42,7 +42,8 @@
       "local lint/typecheck/unit/integration/e2e/transcript gate passes",
       "production caveats documented",
       "Agent Teacher review rerun after productionization",
-      "production build passes"
+      "production build passes",
+      "SMTP dispatch implemented when credentials are configured"
     ],
     "forbiddenPatterns": [
       "claims completion without verification",

@@ -2,8 +2,8 @@
   "agentName": "Codex production hardening agent",
   "prompt": "Dogfood and productionize agent-mailbox on GCP, run live e2e production testing, and correct the product thesis if self-hosting does not work.",
   "plan": "Verify market reality, patch Cloud Run runtime blockers, deploy to GCP Cloud Run from source, run production e2e against the live service, document production caveats, and update Agent Teacher evidence.",
-  "transcript": "Verified market has real paid/hosted competitors: AgentMail, Nylas Agent Accounts, Dead Simple Email, and Atomic Mail Agentic. Inspected GCP auth: project agentmason-prod, region us-central1. Found and fixed Cloud Run blockers: CLI ignored PORT, and Docker image did not chown /app for first-run config/data writes. Added /health alias because exact /healthz on run.app returned a Google frontend HTML 404 while application routes reached the container. Added scripts/prod-e2e.mjs and docs/PRODUCTION-NOTES.md. Ran local gate: pnpm lint, pnpm typecheck, pnpm test:unit, pnpm test:integration, pnpm test:e2e, node scripts/verify-transcripts.mjs; all exited 0. Deployed Cloud Run service agent-mailbox-prod-test revision agent-mailbox-prod-test-00002-9bm. Ran AGENT_MAILBOX_BASE_URL=<cloud-run-url> AGENT_MAILBOX_API_KEY=<redacted> AGENT_MAILBOX_OPERATOR_TOKEN=<redacted> pnpm test:prod; it exited 0 and proved health, readyz, inbox create, allowed send, approval-required send, approve, blocklist 403, inbound HMAC webhook, and message retrieval. Confirmed /health and /readyz return 200 on Cloud Run; exact /healthz still returns Google frontend 404 on run.app. Ran pnpm build; tsup production build exited 0 and emitted ESM plus DTS artifacts under dist/.",
-  "result": "The core Agent Mailbox concept works as a self-hosted Cloud Run proof: agents can receive structured inbound email, send allowed mail, queue risky outbound mail for approval, approve it, and block disallowed domains. pnpm build exited 0, local gates exited 0, Cloud Run source deploy built and rolled out revision agent-mailbox-prod-test-00002-9bm, and pnpm test:prod exited 0. It is not publish-ready as a durable production product because storage is ephemeral JSON-on-disk on Cloud Run and /healthz exact is unreliable on run.app; the defensible wedge is self-hosted agent email governance, not generic agent inboxes.",
+  "transcript": "Verified market has real paid/hosted competitors: AgentMail, Nylas Agent Accounts, Dead Simple Email, and Atomic Mail Agentic. Inspected GCP auth: project agentmason-prod, region us-central1. Found and fixed Cloud Run blockers: CLI ignored PORT, and Docker image did not chown /app for first-run config/data writes. Added /health alias because exact /healthz on run.app returned a Google frontend HTML 404 while application routes reached the container. Added scripts/prod-e2e.mjs and docs/PRODUCTION-NOTES.md. Ran local gate: pnpm lint, pnpm typecheck, pnpm test:unit, pnpm test:integration, pnpm test:e2e, node scripts/verify-transcripts.mjs; all exited 0. Deployed Cloud Run service agent-mailbox-prod-test revision agent-mailbox-prod-test-00002-9bm. Ran AGENT_MAILBOX_BASE_URL=<cloud-run-url> AGENT_MAILBOX_API_KEY=<redacted> AGENT_MAILBOX_OPERATOR_TOKEN=<redacted> pnpm test:prod; it exited 0 and proved health, readyz, inbox create, allowed send, approval-required send, approve, blocklist 403, inbound HMAC webhook, and message retrieval. Confirmed /health and /readyz return 200 on Cloud Run; exact /healthz still returns Google frontend 404 on run.app. Ran pnpm build; tsup production build exited 0 and emitted ESM plus DTS artifacts under dist/. Added real SMTP dispatch when SMTP_HOST, SMTP_USER, and SMTP_PASS/configured pass env are present; mock dispatch remains only as a no-credentials smoke-test fallback. Updated .env.example and production notes. Reran pnpm lint, pnpm typecheck, pnpm test:unit, pnpm test:integration, pnpm test:e2e, pnpm build, and node scripts/verify-transcripts.mjs; all exited 0. Redeployed Cloud Run revision agent-mailbox-prod-test-00003-msx and reran pnpm test:prod; it exited 0.",
+  "result": "The core Agent Mailbox control-plane concept works as a self-hosted Cloud Run proof: inbound webhook parsing, message retrieval, allowed sends, approval-required sends, approval, and policy blocking all pass in live production e2e. The dispatcher now performs real SMTP delivery when provider credentials exist, but this GCP smoke test did not prove deliverability because no SMTP/SES credentials were configured. It is still not publish-ready as a durable production product because Cloud Run storage is ephemeral JSON-on-disk and exact /healthz is unreliable on run.app; the defensible wedge is self-hosted agent email governance, not generic agent inboxes.",
   "touchedFiles": [
     "src/cli.ts",
     "src/server.ts",
@@ -11,7 +11,9 @@
     "package.json",
     "scripts/prod-e2e.mjs",
     "docs/PRODUCTION-NOTES.md",
-    ".agent-teacher/runs/run-20260714-prod-e2e/run.json"
+    ".agent-teacher/runs/run-20260714-prod-e2e/run.json",
+    "src/mail/send.ts",
+    ".env.example"
   ],
   "commands": [
     "web search: AgentMail, Nylas Agent Accounts, Dead Simple Email, Atomic Mail Agentic",
@@ -22,7 +24,9 @@
     "curl /health -> 200",
     "curl /readyz -> 200",
     "curl /healthz -> 404 from Google frontend on run.app",
-    "pnpm build -> exit 0, tsup ESM/DTS build success"
+    "pnpm build -> exit 0, tsup ESM/DTS build success",
+    "Cloud Run source deploy built and rolled out revision agent-mailbox-prod-test-00003-msx",
+    "AGENT_MAILBOX_BASE_URL=<cloud-run-url> AGENT_MAILBOX_API_KEY=<redacted> AGENT_MAILBOX_OPERATOR_TOKEN=<redacted> pnpm test:prod -> exit 0 on revision 00003-msx"
   ],
   "preferences": [
     "Dogfood before publishing.",
@@ -37,6 +41,7 @@
     "local lint/typecheck/unit/integration/e2e/transcript gate passes",
     "production caveats documented",
     "Agent Teacher review rerun after productionization",
-    "production build passes"
+    "production build passes",
+    "SMTP dispatch implemented when credentials are configured"
   ]
 }

@@ -1,5 +1,5 @@
 {
-  "id": "review_fc1b82879369",
+  "id": "review_6244cf292d73",
   "agentName": "Codex production hardening agent",
   "verdict": "on_track",
   "overallScore": 89,
@@ -62,13 +62,14 @@
       "local lint/typecheck/unit/integration/e2e/transcript gate passes",
       "production caveats documented",
       "Agent Teacher review rerun after productionization",
-      "production build passes"
+      "production build passes",
+      "SMTP dispatch implemented when credentials are configured"
     ],
     "policy": {
       "version": "enterprise-default-v1",
       "minScore": 80
     },
-    "generatedAt": "2026-07-14T07:36:40.132Z"
+    "generatedAt": "2026-07-14T07:41:29.893Z"
   },
   "scores": [
     {
@@ -128,7 +129,7 @@
       "minimum": 70,
       "status": "pass",
       "humanQuestion": "The parent agent keeps work limited to the requested outcome.",
-      "parentEvidence": "Touched 7 file(s): src/cli.ts, src/server.ts, Dockerfile, package.json...",
+      "parentEvidence": "Touched 9 file(s): src/cli.ts, src/server.ts, Dockerfile, package.json...",
       "defenderCounterargument": "No major counterargument found, but the defender still expects evidence to stay attached to the run.",
       "betterOptions": [],
       "nextAction": "Accept this dimension and keep the evidence."
@@ -209,7 +210,7 @@
   ],
   "evalDraft": {
     "version": 1,
-    "id": "soft_eval_cacd278c4d8e",
+    "id": "soft_eval_dd4d9cbc0dad",
     "name": "soft eval: Dogfood and productionize agent-mailbox on GCP, run live e2e production ",
     "input": {
       "prompt": "Dogfood and productionize agent-mailbox on GCP, run live e2e production testing, and correct the product thesis if self-hosting does not work."
@@ -251,7 +252,8 @@
         "local lint/typecheck/unit/integration/e2e/transcript gate passes",
         "production caveats documented",
         "Agent Teacher review rerun after productionization",
-        "production build passes"
+        "production build passes",
+        "SMTP dispatch implemented when credentials are configured"
       ],
       "forbiddenPatterns": [
         "claims completion without verification",
@@ -271,7 +273,9 @@
       "package.json",
       "scripts/prod-e2e.mjs",
       "docs/PRODUCTION-NOTES.md",
-      ".agent-teacher/runs/run-20260714-prod-e2e/run.json"
+      ".agent-teacher/runs/run-20260714-prod-e2e/run.json",
+      "src/mail/send.ts",
+      ".env.example"
     ],
     "commands": [
       "web search: AgentMail, Nylas Agent Accounts, Dead Simple Email, Atomic Mail Agentic",
@@ -282,7 +286,9 @@
       "curl /health -> 200",
       "curl /readyz -> 200",
       "curl /healthz -> 404 from Google frontend on run.app",
-      "pnpm build -> exit 0, tsup ESM/DTS build success"
+      "pnpm build -> exit 0, tsup ESM/DTS build success",
+      "Cloud Run source deploy built and rolled out revision agent-mailbox-prod-test-00003-msx",
+      "AGENT_MAILBOX_BASE_URL=<cloud-run-url> AGENT_MAILBOX_API_KEY=<redacted> AGENT_MAILBOX_OPERATOR_TOKEN=<redacted> pnpm test:prod -> exit 0 on revision 00003-msx"
     ],
     "toolCalls": [],
     "detectedChecks": [
@@ -300,6 +306,6 @@
     "commandRisks": [],
     "toolRisks": []
   },
-  "inputDigest": "417260718ccdbcde81a1de4cf90735bbc49d3a8560ff91b693c66fa0b0128234",
-  "createdAt": "2026-07-14T07:36:40.133Z"
+  "inputDigest": "385bdb346b599a7baf556d3f28e3a16d09f0f223a541d46bee92152c05a79fb2",
+  "createdAt": "2026-07-14T07:41:29.894Z"
 }

@@ -112,7 +112,7 @@ async function sendOrQueue(
     return { pending: true as const, message, approval };
   }
 
-  await dispatchMessage(message);
+  await dispatchMessage(message, config);
   writeAudit(store, "message.sent", { inbox_id: inbox.id, message_id: message.id, actor: "api" });
   await emitWebhook(config.webhook_url, "message.sent", { message_id: message.id });
   store.persist();
@@ -266,7 +266,7 @@ export function createApp(context?: Partial<AppContext>): FastifyInstance {
       const message = store.state.messages.find((row) => row.id === id);
       if (!message) return error(reply, "not_found");
       try {
-        await dispatchMessage(message);
+        await dispatchMessage(message, loaded.config);
         message.status = "sent";
         message.updated_at = store.now();
         writeAudit(store, "message.sent", {
@@ -353,7 +353,7 @@ export function createApp(context?: Partial<AppContext>): FastifyInstance {
       approval.decided_at = store.now();
       message.status = "sent";
       message.updated_at = store.now();
-      await dispatchMessage(message);
+      await dispatchMessage(message, loaded.config);
       writeAudit(store, "approval.decided", {
         inbox_id: message.inbox_id,
         message_id: message.id,
